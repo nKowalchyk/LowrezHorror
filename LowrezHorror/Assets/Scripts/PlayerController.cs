@@ -39,10 +39,13 @@ public class PlayerController : MonoBehaviour {
             transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
 
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+            moveDirection.y = 0.0f;
+
             moveDirection *= speed;
 
             if(Input.GetButton("Jump")) {
-                moveDirection.y = jumpSpeed;
+                //moveDirection.y = jumpSpeed;
             }
         }
 
