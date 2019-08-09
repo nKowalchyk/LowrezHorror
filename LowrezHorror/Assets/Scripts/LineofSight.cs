@@ -23,13 +23,14 @@ public class LineofSight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * ReachLength, Color.red, 0.5f);
-
+        
+        //Casts a Ray in the forward direction of the player 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out ObjectHit, ReachLength))
         {
+            //Sends information to DescriptionManager to display text
             if (ObjectHit.collider.tag == "InteractiveItem" && Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
             {
-                Debug.Log(ObjectHit.collider.name);
+                
 
 
                 TextboxOpen = true;
@@ -37,7 +38,7 @@ public class LineofSight : MonoBehaviour
                 //displays textbox with the describtion of the object
                 //Put a timer on
                 Description.SetShowText(TextboxOpen);
-
+                Description.SetGrabDescription(ObjectHit);
                 //picks up the item if able
 
 
@@ -45,7 +46,7 @@ public class LineofSight : MonoBehaviour
             }      
         }
     }
-
+    //Set TextboxOpen to False
     public void SetTextboxOpen(bool NewValue)
     {
         TextboxOpen = NewValue;

@@ -23,27 +23,33 @@ public class DescriptionManager : MonoBehaviour
         ShowText = change;
     }
 
+    public void SetGrabDescription(RaycastHit ObjectHit)
+    {
+        GrabDescription = ObjectHit;
+    }
+
     void Update()
     {
+        //Checks if descriptions need to be displayed
         if (ShowText) {
-            Debug.Log("Update If Statement");
-            
+                      
             ShowText = false;
             RevealText();
         }
        
     }
 
+    //Called to Reveal the Description of object
     void RevealText()
     {
-        Debug.Log("RevealText");
-        MyText.text = "Description";
+        
+        MyText.text = GrabDescription.collider.name;
         Invoke("HideText", 3);
     }
-
+    //Called to erase the text being displayed
     void HideText()
     {
-        Debug.Log("HideText");
+        
         MyText.text = "";
         LineofSight.SetTextboxOpen(false);
         
