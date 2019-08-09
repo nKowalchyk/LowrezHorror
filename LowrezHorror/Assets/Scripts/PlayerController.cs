@@ -24,15 +24,34 @@ public class PlayerController : MonoBehaviour
     private float maxYView = 50.0f;
 
     private CharacterController characterController;    //Unity CharacterController Asset that moves the Player object
+    private Light[] lights;
     private Vector3 moveDirection = Vector3.zero;   //movement direction Vector3 updated every FixedUpdate determined by arrow keys
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+
+        /*
+        GameObject lightParent = null;
+        for(int i = 0; i < transform.childCount; i++) {
+            if(transform.GetChild(i).transform.gameObject.name == "Flashlight") {
+                lightParent = transform.GetChild(i).transform.gameObject;
+            }
+        }
+        if(lightParent) {
+            lights = lightParent.GetComponents<Light>();
+
+        } */
+
+        lights = transform.gameObject.GetComponentsInChildren<Light>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.F)) {
+            foreach (var light in lights) {
+                light.enabled = !light.enabled;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -66,6 +85,7 @@ public class PlayerController : MonoBehaviour
             {
                 //moveDirection.y = jumpSpeed;
             }
+
         }
 
         //moveDirection.y -= gravity * Time.deltaTime;
