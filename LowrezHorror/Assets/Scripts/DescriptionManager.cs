@@ -44,10 +44,10 @@ public class DescriptionManager : MonoBehaviour
     {
         
         MyText.text = GrabDescription.collider.name;
-        Invoke("HideText", 3);
+        //Invoke("HideText", 3);
     }
     //Called to erase the text being displayed
-    void HideText()
+    public void HideText()
     {
         
         MyText.text = "";

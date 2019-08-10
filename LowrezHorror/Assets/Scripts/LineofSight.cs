@@ -23,12 +23,13 @@ public class LineofSight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward*ReachLength, Color.red, 0.5f);
         //Casts a Ray in the forward direction of the player 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out ObjectHit, ReachLength))
         {
+         
             //Sends information to DescriptionManager to display text
-            if (ObjectHit.collider.tag == "InteractiveItem" && Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
+            if (ObjectHit.collider.tag == "InteractiveItem") //&& Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
             {
                 
 
@@ -43,7 +44,17 @@ public class LineofSight : MonoBehaviour
 
 
 
-            }      
+            }
+            else
+            {
+                Description.HideText();
+
+            }
+        }
+        else
+        {
+            Description.HideText();
+
         }
     }
     //Set TextboxOpen to False
