@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - InteractiveItem
+  - EnvLight
   layers:
   - Default
   - TransparentFX
