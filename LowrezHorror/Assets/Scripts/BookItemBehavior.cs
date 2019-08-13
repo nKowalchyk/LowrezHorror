@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BookItemBehavior : IItemBehavior {
-    private RawImage bookDisplay;
+    public RawImage bookDisplay;
     void Start() {
         bookDisplay = GetComponentInChildren<RawImage>();
     }
