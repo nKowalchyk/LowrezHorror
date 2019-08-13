@@ -15,10 +15,6 @@ public class EnvironmentLightController : ILightBehaviorController {
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-    }
-
     public override void toggleLights() {
         foreach(var light in lights) {
             light.enabled = !light.enabled;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /*  Written By: Nick Kowalchyk
  *  Character Controller Class
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;    //Unity CharacterController Asset that moves the Player object
     private Light[] lights;
     private Vector3 moveDirection = Vector3.zero;   //movement direction Vector3 updated every FixedUpdate determined by arrow keys
+    private RawImage playerImage = null;
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -56,39 +58,44 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (true)
-        {//characterController.isGrounded) {
+        yaw += cameraRotationSpeedX * Input.GetAxis("Mouse X");
+        pitch -= cameraRotationSpeedY * Input.GetAxis("Mouse Y");
 
-            yaw += cameraRotationSpeedX * Input.GetAxis("Mouse X");
-            pitch -= cameraRotationSpeedY * Input.GetAxis("Mouse Y");
+        if ((pitch < -maxYView) || (pitch > maxYView))
+        {
+            pitch = maxYView * Mathf.Sign(pitch);
+        }
+        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
 
-            if ((pitch < -maxYView) || (pitch > maxYView))
-            {
-                pitch = maxYView * Mathf.Sign(pitch);
-            }
-            transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+        moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+        moveDirection.y = 0.0f;
 
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-            moveDirection.y = 0.0f;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            moveDirection *= shiftSpeed;
+        }
+        else
+        {
+            moveDirection *= speed;
+        }
 
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                moveDirection *= shiftSpeed;
-            }
-            else
-            {
-                moveDirection *= speed;
-            }
-
-            if (Input.GetButton("Jump"))
-            {
-                //moveDirection.y = jumpSpeed;
-            }
-
+        if (Input.GetButton("Jump"))
+        {
+            //moveDirection.y = jumpSpeed;
         }
 
         //moveDirection.y -= gravity * Time.deltaTime;
         characterController.Move(moveDirection * Time.deltaTime);
+    }
+
+    public void displayImage(Texture text)
+    {
+        if(playerImage == null) {
+            playerImage.texture = text;
+        }
+        else {
+            playerImage.texture = null;
+        }
     }
 }

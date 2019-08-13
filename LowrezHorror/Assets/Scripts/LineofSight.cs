@@ -10,6 +10,7 @@ public class LineofSight : MonoBehaviour
     public bool TextboxOpen = false; //checks if a textbox is already open
 
     public DescriptionManager Description; //Rename if works
+    public PlayerController character; //store reference of player
 
 
     // Start is called before the first frame update
@@ -42,7 +43,7 @@ public class LineofSight : MonoBehaviour
                 Description.SetGrabDescription(ObjectHit);
                 //picks up the item if able
 
-
+                
 
             }
             else
