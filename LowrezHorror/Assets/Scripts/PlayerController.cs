@@ -12,7 +12,11 @@ using UnityEngine.UI;
  */
 public class PlayerController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public enum PlayerState {
+        Interacting, Free
+    }
+
+    public PlayerState state = PlayerState.Free;
     public float speed = 5.0f;  //movement speed
     public float shiftSpeed = 8.0f; //sprint speed
     public float jumpSpeed = 8.0f;  //jump velocity
@@ -27,75 +31,89 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;    //Unity CharacterController Asset that moves the Player object
     private Light[] lights;
     private Vector3 moveDirection = Vector3.zero;   //movement direction Vector3 updated every FixedUpdate determined by arrow keys
-    private RawImage playerImage = null;
+    private RawImage playerImage;
+
+    public GameObject lineOfSightParent;
+    private LineofSight lineOfSight;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-
-        /*
-        GameObject lightParent = null;
-        for(int i = 0; i < transform.childCount; i++) {
-            if(transform.GetChild(i).transform.gameObject.name == "Flashlight") {
-                lightParent = transform.GetChild(i).transform.gameObject;
-            }
-        }
-        if(lightParent) {
-            lights = lightParent.GetComponents<Light>();
-
-        } */
+        playerImage = GetComponentInChildren<RawImage>();
+        playerImage.enabled = false;
+        lineOfSight = lineOfSightParent.GetComponentInChildren<LineofSight>();
 
         lights = transform.gameObject.GetComponentsInChildren<Light>();
     }
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown(KeyCode.F)) {
-            foreach (var light in lights) {
-                light.enabled = !light.enabled;
+
+        if(state == PlayerState.Free) {
+            if (Input.GetKeyDown(KeyCode.F)) {
+                foreach (var light in lights) {
+                    light.enabled = !light.enabled;
+                }
+            }
+
+            if(Input.GetKeyDown(KeyCode.E)) {
+                lineOfSight.grabImage();
             }
         }
+        else if(state == PlayerState.Interacting) {
+            if (Input.GetKeyDown(KeyCode.E)) {
+                freePlayer();
+            }
+        }
+
     }
 
     void FixedUpdate()
     {
-        yaw += cameraRotationSpeedX * Input.GetAxis("Mouse X");
-        pitch -= cameraRotationSpeedY * Input.GetAxis("Mouse Y");
+        if (state == PlayerState.Free) {
 
-        if ((pitch < -maxYView) || (pitch > maxYView))
-        {
-            pitch = maxYView * Mathf.Sign(pitch);
+            yaw += cameraRotationSpeedX * Input.GetAxis("Mouse X");
+            pitch -= cameraRotationSpeedY * Input.GetAxis("Mouse Y");
+
+            if ((pitch < -maxYView) || (pitch > maxYView)) {
+                pitch = maxYView * Mathf.Sign(pitch);
+            }
+            transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+
+            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+            moveDirection.y = 0.0f;
+
+            if (Input.GetKey(KeyCode.LeftShift)) {
+                moveDirection *= shiftSpeed;
+            }
+            else {
+                moveDirection *= speed;
+            }
+
+            if (Input.GetButton("Jump")) {
+                //moveDirection.y = jumpSpeed;
+            }
+
+            //moveDirection.y -= gravity * Time.deltaTime;
+            characterController.Move(moveDirection * Time.deltaTime);
         }
-        transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
-
-        moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-        moveDirection.y = 0.0f;
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            moveDirection *= shiftSpeed;
-        }
-        else
-        {
-            moveDirection *= speed;
-        }
-
-        if (Input.GetButton("Jump"))
-        {
-            //moveDirection.y = jumpSpeed;
-        }
-
-        //moveDirection.y -= gravity * Time.deltaTime;
-        characterController.Move(moveDirection * Time.deltaTime);
     }
 
     public void displayImage(Texture text)
     {
-        if(playerImage == null) {
+        if(playerImage.enabled == false) {
             playerImage.texture = text;
+            playerImage.enabled = true;
         }
         else {
-            playerImage.texture = null;
+            playerImage.enabled = false;
         }
+    }
+
+    public void freePlayer() {
+        playerImage.enabled = false;
+        playerImage.texture = null;
+        state = PlayerState.Free;
     }
 }

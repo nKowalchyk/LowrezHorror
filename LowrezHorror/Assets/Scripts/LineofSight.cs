@@ -10,7 +10,8 @@ public class LineofSight : MonoBehaviour
     public bool TextboxOpen = false; //checks if a textbox is already open
 
     public DescriptionManager Description; //Rename if works
-    public PlayerController character; //store reference of player
+    public GameObject player;
+    private PlayerController character; //store reference of player
 
 
     // Start is called before the first frame update
@@ -18,7 +19,7 @@ public class LineofSight : MonoBehaviour
     {
         ReachLength = 4.0f;
         TextboxOpen = false;
-        
+        character = player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -32,8 +33,6 @@ public class LineofSight : MonoBehaviour
             //Sends information to DescriptionManager to display text
             if (ObjectHit.collider.tag == "InteractiveItem") //&& Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
             {
-                
-
 
                 TextboxOpen = true;
 
@@ -42,8 +41,6 @@ public class LineofSight : MonoBehaviour
                 Description.SetShowText(TextboxOpen);
                 Description.SetGrabDescription(ObjectHit);
                 //picks up the item if able
-
-                
 
             }
             else
@@ -62,5 +59,18 @@ public class LineofSight : MonoBehaviour
     public void SetTextboxOpen(bool NewValue)
     {
         TextboxOpen = NewValue;
+    }
+
+    public void grabImage()
+    {
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out ObjectHit, ReachLength)) {
+
+            //Sends information to DescriptionManager to display text
+            if (ObjectHit.collider.tag == "InteractiveItem") //&& Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
+            {
+                ObjectHit.collider.gameObject.GetComponent<IItemBehavior>().interact(character);
+                character.state = PlayerController.PlayerState.Interacting;
+            }
+        }
     }
 }
