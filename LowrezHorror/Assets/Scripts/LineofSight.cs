@@ -31,7 +31,7 @@ public class LineofSight : MonoBehaviour
         {
          
             //Sends information to DescriptionManager to display text
-            if (ObjectHit.collider.tag == "InteractiveItem") //&& Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
+            if (ObjectHit.collider.tag == "InteractiveItem" || ObjectHit.collider.tag =="CollectableItem") //&& Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
             {
 
                 TextboxOpen = true;

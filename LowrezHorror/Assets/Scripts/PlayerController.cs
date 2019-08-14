@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private float yaw = 0.0f;   //camera rotation value horizontally
     private float pitch = 0.0f; //camera rotation value vertically
     private float maxYView = 50.0f;
+    private bool openInventory = false;
 
     private CharacterController characterController;    //Unity CharacterController Asset that moves the Player object
     private Light[] lights;
@@ -36,6 +37,9 @@ public class PlayerController : MonoBehaviour
     public GameObject lineOfSightParent;
     private LineofSight lineOfSight;
 
+    public PlayerInventory Inventory;
+    
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -44,6 +48,8 @@ public class PlayerController : MonoBehaviour
         lineOfSight = lineOfSightParent.GetComponentInChildren<LineofSight>();
 
         lights = transform.gameObject.GetComponentsInChildren<Light>();
+
+        
     }
 
     // Update is called once per frame
@@ -58,6 +64,20 @@ public class PlayerController : MonoBehaviour
 
             if(Input.GetKeyDown(KeyCode.E)) {
                 lineOfSight.grabImage();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                if (!openInventory)
+                {
+                    Inventory.ShowInventory();
+                    openInventory = !openInventory;
+                }
+                else
+                {
+                    Inventory.HideInventory();
+                    openInventory = !openInventory;
+                }
             }
         }
         else if(state == PlayerState.Interacting) {
