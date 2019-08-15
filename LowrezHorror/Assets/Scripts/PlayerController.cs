@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public enum PlayerState {
-        Interacting, Free
+        Interacting, Free, Inventory
     }
 
     public PlayerState state = PlayerState.Free;
@@ -64,24 +64,25 @@ public class PlayerController : MonoBehaviour
 
             if(Input.GetKeyDown(KeyCode.E)) {
                 lineOfSight.grabImage();
+                lineOfSight.collectItem();
             }
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                if (!openInventory)
-                {
-                    Inventory.ShowInventory();
-                    openInventory = !openInventory;
-                }
-                else
-                {
-                    Inventory.HideInventory();
-                    openInventory = !openInventory;
-                }
+                Inventory.ShowInventory();
+                state = PlayerState.Inventory;
             }
         }
         else if(state == PlayerState.Interacting) {
             if (Input.GetKeyDown(KeyCode.E)) {
+               freePlayer();
+            }
+        }
+        else if (state == PlayerState.Inventory)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Inventory.HideInventory();
                 freePlayer();
             }
         }
@@ -122,7 +123,8 @@ public class PlayerController : MonoBehaviour
 
     public void displayImage(Texture text)
     {
-        if(playerImage.enabled == false) {
+        
+        if (playerImage.enabled == false) {
             playerImage.texture = text;
             playerImage.enabled = true;
         }

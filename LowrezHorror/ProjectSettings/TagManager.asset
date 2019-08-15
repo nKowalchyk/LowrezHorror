@@ -6,6 +6,7 @@ TagManager:
   tags:
   - InteractiveItem
   - EnvLight
+  - CollectableItem
   layers:
   - Default
   - TransparentFX

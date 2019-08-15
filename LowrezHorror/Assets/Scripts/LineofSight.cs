@@ -10,6 +10,8 @@ public class LineofSight : MonoBehaviour
     public bool TextboxOpen = false; //checks if a textbox is already open
 
     public DescriptionManager Description; //Rename if works
+    public PlayerInventory inventory;
+
     public GameObject player;
     private PlayerController character; //store reference of player
 
@@ -31,7 +33,7 @@ public class LineofSight : MonoBehaviour
         {
          
             //Sends information to DescriptionManager to display text
-            if (ObjectHit.collider.tag == "InteractiveItem" || ObjectHit.collider.tag =="CollectableItem") //&& Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
+            if (ObjectHit.collider.tag == "InteractiveItem" || ObjectHit.collider.tag == "CollectableItem") //&& Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
             {
 
                 TextboxOpen = true;
@@ -70,6 +72,20 @@ public class LineofSight : MonoBehaviour
             {
                 ObjectHit.collider.gameObject.GetComponent<IItemBehavior>().interact(character);
                 character.state = PlayerController.PlayerState.Interacting;
+            }
+        }
+    }
+
+    public void collectItem()
+    {
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out ObjectHit, ReachLength))
+        {
+
+            //Sends information to DescriptionManager to display text
+            if (ObjectHit.collider.tag == "CollectableItem") //&& Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
+            {
+                ObjectHit.collider.gameObject.GetComponent<IItemBehavior>().interact(character);
+                //Destroy(ObjectHit.collider.gameObject);
             }
         }
     }

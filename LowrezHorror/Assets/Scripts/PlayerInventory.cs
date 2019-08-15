@@ -5,14 +5,14 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {   
     public CanvasGroup InventoryCanvas;
-    private GameObject[,] InventoryArray;
+    private Texture[,] InventoryArray;
     
     // Start is called before the first frame update
     void Start()
     {
         InventoryCanvas.alpha = 0f;
         InventoryCanvas.blocksRaycasts = false;
-        InventoryArray = new GameObject[3, 3];
+        InventoryArray = new Texture[3, 3];
     }
 
     // Update is called once per frame
@@ -25,7 +25,7 @@ public class PlayerInventory : MonoBehaviour
 
     }
 
-    public void InsertInventory(GameObject Insert)
+    public void insertInventory(Texture Insert)
     {
         for (int i = 0; i < 3; i++)
         {
@@ -45,23 +45,23 @@ public class PlayerInventory : MonoBehaviour
     {
         InventoryCanvas.alpha = 1f;
         InventoryCanvas.blocksRaycasts = true;
-        /*for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
             {
                 if(InventoryArray[i,j] == null)
                 {
-                    //display no image
+                    Debug.Log("Empty");
                     
                 }
                 else
                 {
                     //display image in Inventory Slot [i,j]
-
+                    Debug.Log(InventoryArray[i, j].name);
                 }
             
             }
-        }*/
+        }
     }
 
     public void HideInventory()
