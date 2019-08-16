@@ -5,14 +5,16 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {   
     public CanvasGroup InventoryCanvas;
-    private Texture[,] InventoryArray;
-    
+    public string[] InventoryArray;
+    public InventorySlots test;
+    public DescriptionManager Description;
+
     // Start is called before the first frame update
     void Start()
     {
         InventoryCanvas.alpha = 0f;
         InventoryCanvas.blocksRaycasts = false;
-        InventoryArray = new Texture[3, 3];
+        InventoryArray = new string[5];
     }
 
     // Update is called once per frame
@@ -25,18 +27,16 @@ public class PlayerInventory : MonoBehaviour
 
     }
 
-    public void insertInventory(Texture Insert)
+    public void insertInventory(string Insert)
     {
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
+        
+        for (int i = 0; i < 5; i++)
+        { 
+            if (InventoryArray[i] == null)
             {
-                if (InventoryArray[i,j] == null)
-                {
-                    InventoryArray[i, j] = Insert;
-                    i = 3;
-                    j = 3;
-                }
+                InventoryArray[i] = Insert;
+                Description.addText(Insert);
+                break;                   
             }
         }
     }
@@ -45,23 +45,23 @@ public class PlayerInventory : MonoBehaviour
     {
         InventoryCanvas.alpha = 1f;
         InventoryCanvas.blocksRaycasts = true;
-        for (int i = 0; i < 3; i++)
+        
+        for (int i = 0; i < 5; i++)
         {
-            for (int j = 0; j < 3; j++)
+            if(InventoryArray[i] == null)
             {
-                if(InventoryArray[i,j] == null)
-                {
-                    Debug.Log("Empty");
+                Debug.Log("Empty");
                     
-                }
-                else
-                {
-                    //display image in Inventory Slot [i,j]
-                    Debug.Log(InventoryArray[i, j].name);
-                }
-            
             }
+            else
+            {
+                //display image in Inventory Slot [i,j]
+                Debug.Log(InventoryArray[i]);
+            }
+            
+            
         }
+        
     }
 
     public void HideInventory()

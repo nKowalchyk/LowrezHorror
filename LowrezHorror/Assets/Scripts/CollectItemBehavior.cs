@@ -19,6 +19,6 @@ public class CollectItemBehavior : IItemBehavior
 
     public override void interact(PlayerController player)
     {
-        player.Inventory.insertInventory(itemDisplay.texture);  //displayImage(itemDisplay.texture);
+        //player.Inventory.insertInventory(itemDisplay.texture);  //displayImage(itemDisplay.texture);
     }
 }

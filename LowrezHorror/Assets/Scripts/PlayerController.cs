@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
 
     public PlayerInventory Inventory;
     
+    
+    
 
     void Start()
     {
@@ -69,6 +71,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
+
                 Inventory.ShowInventory();
                 state = PlayerState.Inventory;
             }
@@ -80,11 +83,13 @@ public class PlayerController : MonoBehaviour
         }
         else if (state == PlayerState.Inventory)
         {
+
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 Inventory.HideInventory();
                 freePlayer();
             }
+            
         }
 
     }
@@ -119,6 +124,7 @@ public class PlayerController : MonoBehaviour
             //moveDirection.y -= gravity * Time.deltaTime;
             characterController.Move(moveDirection * Time.deltaTime);
         }
+        
     }
 
     public void displayImage(Texture text)

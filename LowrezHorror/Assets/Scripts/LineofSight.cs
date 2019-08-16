@@ -84,8 +84,10 @@ public class LineofSight : MonoBehaviour
             //Sends information to DescriptionManager to display text
             if (ObjectHit.collider.tag == "CollectableItem") //&& Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
             {
-                ObjectHit.collider.gameObject.GetComponent<IItemBehavior>().interact(character);
-                //Destroy(ObjectHit.collider.gameObject);
+                inventory.insertInventory(ObjectHit.collider.name);
+                
+                //ObjectHit.collider.gameObject.GetComponent<IItemBehavior>().interact(character);
+                Destroy(ObjectHit.collider.gameObject);
             }
         }
     }

@@ -6,15 +6,18 @@ using UnityEngine.UI;
 public class DescriptionManager : MonoBehaviour
 {
     public Text MyText;
+    public Text inventoryText;
     private bool ShowText = false;
+    private string collectiveInventory;
     private RaycastHit GrabDescription;
     public LineofSight LineofSight;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-     
+        collectiveInventory = "";
+
+
     }
 
     // Update is called once per frame
@@ -40,12 +43,13 @@ public class DescriptionManager : MonoBehaviour
     }
 
     //Called to Reveal the Description of object
-    void RevealText()
+    public void RevealText()
     {
         
         MyText.text = GrabDescription.collider.name;
         //Invoke("HideText", 3);
     }
+    
     //Called to erase the text being displayed
     public void HideText()
     {
@@ -54,4 +58,11 @@ public class DescriptionManager : MonoBehaviour
         LineofSight.SetTextboxOpen(false);
         
     }
+
+    public void addText(string adding)
+    {
+        collectiveInventory = collectiveInventory + adding + "\n";
+        inventoryText.text = collectiveInventory;
+    }
+
 }
