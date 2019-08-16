@@ -66,7 +66,7 @@ public class LineofSight : MonoBehaviour
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out ObjectHit, ReachLength)) {
 
             //Sends information to DescriptionManager to display text
-            if (ObjectHit.collider.tag == "InteractiveItem") //&& Input.GetKeyDown(KeyCode.E) && !TextboxOpen)
+            if (ObjectHit.collider.tag == "InteractiveItem")
             {
                 ObjectHit.collider.gameObject.GetComponent<IItemBehavior>().interact(character);
                 character.state = PlayerController.PlayerState.Interacting;

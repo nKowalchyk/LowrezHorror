@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public PlayerState state = PlayerState.Free;
-    public float speed = 5.0f;  //movement speed
-    public float shiftSpeed = 8.0f; //sprint speed
+    public float speed = 3.0f;  //movement speed
+    public float shiftSpeed = 6.0f; //sprint speed
     public float jumpSpeed = 8.0f;  //jump velocity
     public float gravity = 20.0f;   //gravity acceleration
 

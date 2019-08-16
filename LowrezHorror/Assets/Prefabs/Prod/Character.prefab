@@ -368,7 +368,7 @@ GameObject:
   - component: {fileID: 6926535601085690501}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -428,6 +428,7 @@ MonoBehaviour:
   cameraRotationSpeedX: 3
   cameraRotationSpeedY: 3
   lineOfSightParent: {fileID: 6926535601887752413}
+  Inventory: {fileID: 0}
 --- !u!54 &6926535601085690501
 Rigidbody:
   m_ObjectHideFlags: 0
